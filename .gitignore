@@ -4,3 +4,8 @@
 *.war
 *.ear
 /target
+*.classpath
+*.jar
+*.classpath
+DiceLib/.settings/org.eclipse.jdt.core.prefs
+DocCreator/.settings/org.eclipse.jdt.core.prefs
