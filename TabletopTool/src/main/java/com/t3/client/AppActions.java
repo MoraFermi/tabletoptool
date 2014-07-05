@@ -69,7 +69,6 @@ import com.t3.client.ui.ConnectionInfoDialog;
 import com.t3.client.ui.ConnectionStatusPanel;
 import com.t3.client.ui.ExportDialog;
 import com.t3.client.ui.MapPropertiesDialog;
-import com.t3.client.ui.PreferencesDialog;
 import com.t3.client.ui.PreviewPanelFileChooser;
 import com.t3.client.ui.StartServerDialog;
 import com.t3.client.ui.StartServerDialogPreferences;
@@ -79,10 +78,10 @@ import com.t3.client.ui.T3Frame.MTFrame;
 import com.t3.client.ui.assetpanel.AssetPanel;
 import com.t3.client.ui.assetpanel.Directory;
 import com.t3.client.ui.campaignproperties.CampaignPropertiesDialog;
+import com.t3.client.ui.dialogs.preferences.PreferencesDialog;
 import com.t3.client.ui.io.FTPClient;
 import com.t3.client.ui.io.FTPTransferObject;
 import com.t3.client.ui.io.FTPTransferObject.Direction;
-import com.t3.client.ui.io.LoadSaveImpl;
 import com.t3.client.ui.io.ProgressBarList;
 import com.t3.client.ui.io.UpdateRepoDialog;
 import com.t3.client.ui.token.TransferProgressDialog;
@@ -1833,9 +1832,6 @@ public class AppActions {
 					policy.setPlayersReceiveCampaignMacros(serverProps.getPlayersReceiveCampaignMacros());
 					policy.setIsMovementLocked(TabletopTool.getServerPolicy().isMovementLocked());
 
-					// Tool Tips for unformatted inline rolls.
-					policy.setUseToolTipsForDefaultRollFormat(serverProps.getUseToolTipsForUnformattedRolls());
-
 					//my addition
 					policy.setRestrictedImpersonation(serverProps.getRestrictedImpersonation());
 					policy.setMovementMetric(serverProps.getMovementMetric());
@@ -2132,25 +2128,6 @@ public class AppActions {
 			}
 		}.start();
 	}
-
-	/**
-	 * This is the integrated load/save interface that allows individual
-	 * components of the application's dataet to be saved to an external file.
-	 * The goal is to allow specific maps and tokens, campaign properties
-	 * (sight, light, token props), and layers + their contents to be saved
-	 * through a single unified interface.
-	 */
-	public static final Action LOAD_SAVE = new DeveloperClientAction() {
-		{
-			init("action.loadSaveDialog");
-		}
-
-		@Override
-		public void execute(ActionEvent ae) {
-			LoadSaveImpl impl = new LoadSaveImpl();
-			impl.saveApplication(); // All the work is done here
-		}
-	};
 
 	public static final Action SAVE_CAMPAIGN = new DefaultClientAction() {
 		{
@@ -2659,8 +2636,8 @@ public class AppActions {
 			runBackground(new Runnable() {
 				@Override
 				public void run() {
-					AddResourceDialog dialog = new AddResourceDialog();
-					dialog.showDialog();
+					AddResourceDialog dialog = new AddResourceDialog(TabletopTool.getFrame());
+					dialog.setVisible(true);
 				}
 			});
 		}
