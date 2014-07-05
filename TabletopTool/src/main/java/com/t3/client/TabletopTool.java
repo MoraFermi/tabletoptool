@@ -1429,6 +1429,14 @@ public class TabletopTool {
 		return lastWhisperer;
 	}
 
+	public static boolean useToolTipsForUnformatedRolls() {
+		if (isPersonalServer()) {
+			return AppPreferences.getUseToolTipForInlineRoll();
+		} else {
+			return getServerPolicy().getUseToolTipsForDefaultRollFormat();
+		}
+	}
+
 	private static class ServerHeartBeatThread extends Thread {
 		@Override
 		public void run() {
